@@ -26,21 +26,18 @@ A Chrome extension that adds a floating button to every page, opening a compact 
 - **React 18** (via Vite)
 - **Shadow DOM** for style isolation
 
-## Build Steps
+## Quick Start
+
+📖 **For detailed deployment and usage instructions, see [USAGE.md](./USAGE.md)**
+
+### Quick Build Steps
 
 1. **Install dependencies**:
    ```bash
    npm install
    ```
 
-2. **Create icon files**:
-   Place icon files in `src/icons/`:
-   - `icon16.png` (16×16px)
-   - `icon32.png` (32×32px)
-   - `icon48.png` (48×48px)
-   - `icon128.png` (128×128px)
-   
-   You can use any image editor or online tool to create these. A simple colored circle or chat bubble icon works well.
+2. **Add icon files** to `src/icons/` (see [USAGE.md](./USAGE.md) for details)
 
 3. **Build the extension**:
    ```bash
@@ -48,10 +45,19 @@ A Chrome extension that adds a floating button to every page, opening a compact 
    ```
 
 4. **Load in Chrome**:
-   - Open Chrome and navigate to `chrome://extensions/`
-   - Enable "Developer mode" (toggle in top right)
+   - Go to `chrome://extensions/`
+   - Enable "Developer mode"
    - Click "Load unpacked"
-   - Select the `dist` folder from this project
+   - Select the `dist` folder
+
+### API Keys
+
+**Good News**: The extension works **without API keys**! It uses your existing browser sessions.
+
+- **ChatGPT**: Uses your logged-in session (reads cookies)
+- **Perplexity**: Scrapes from the web interface
+
+If you want to add API key support for enhanced features, see the [API Keys section in USAGE.md](./USAGE.md#api-keys-configuration).
 
 ## Development
 
