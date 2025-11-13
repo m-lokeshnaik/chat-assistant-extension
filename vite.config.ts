@@ -9,7 +9,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         { src: 'src/manifest.json', dest: '.' },
-        { src: 'src/icons/*', dest: 'icons' }
+        { src: 'src/icons/*', dest: 'icons' },
+        { src: 'src/sidepanel/sidepanel.html', dest: '.' }
       ]
     })
   ],
@@ -20,7 +21,6 @@ export default defineConfig({
         background: resolve(__dirname, 'src/background/background.ts'),
         content: resolve(__dirname, 'src/content/content.ts'),
         'sidepanel-entry': resolve(__dirname, 'src/sidepanel/sidepanel-entry.tsx'),
-        sidepanel: resolve(__dirname, 'src/sidepanel/sidepanel.html'),
         perplexity: resolve(__dirname, 'src/content/perplexity.ts')
       },
       output: {

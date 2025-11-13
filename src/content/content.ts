@@ -52,7 +52,11 @@ function createFloatingButton() {
 
 function togglePanel() {
   chrome.runtime.sendMessage({ type: 'TOGGLE_PANEL' }, (response) => {
-    isPanelOpen = !isPanelOpen;
+    if (chrome.runtime.lastError) {
+      console.error('Error toggling panel:', chrome.runtime.lastError);
+    } else {
+      isPanelOpen = !isPanelOpen;
+    }
   });
 }
 
@@ -64,10 +68,36 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // Inject button when DOM is ready
-if (document.body) {
-  createFloatingButton();
+function initButton() {
+  if (document.body) {
+    createFloatingButton();
+    console.log('Chat Assistant: Floating button created');
+  } else {
+    // Wait for body to be available
+    const observer = new MutationObserver(() => {
+      if (document.body) {
+        createFloatingButton();
+        console.log('Chat Assistant: Floating button created');
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true });
+    
+    // Fallback to DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!button && document.body) {
+        createFloatingButton();
+        console.log('Chat Assistant: Floating button created');
+      }
+    });
+  }
+}
+
+// Initialize immediately if possible
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initButton);
 } else {
-  document.addEventListener('DOMContentLoaded', createFloatingButton);
+  initButton();
 }
 
 // Clean up on page unload

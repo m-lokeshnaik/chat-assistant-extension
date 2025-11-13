@@ -20,12 +20,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // Handle toggle panel message from content script
   if (request.type === 'TOGGLE_PANEL') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.sidePanel.open({ windowId: tabs[0].windowId });
+      if (tabs[0]?.id && tabs[0].windowId) {
+        chrome.sidePanel.open({ windowId: tabs[0].windowId })
+          .then(() => {
+            console.log('Side panel opened successfully');
+            sendResponse({ success: true });
+          })
+          .catch((error) => {
+            console.error('Error opening side panel:', error);
+            sendResponse({ success: false, error: error.message });
+          });
+      } else {
+        console.error('No active tab found');
+        sendResponse({ success: false, error: 'No active tab' });
       }
     });
-    sendResponse({ success: true });
-    return false;
+    return true; // Keep channel open for async response
   }
   
   // CORS-safe fetch wrapper
